@@ -1,0 +1,85 @@
+group 'com.iabhishekmp.hello'
+version '1.0-SNAPSHOT'
+
+buildscript {
+    ext.kotlin_version = '1.9.0'
+    repositories {
+        google()
+        mavenCentral()
+        maven { url 'https://jitpack.io' }
+    }
+
+    dependencies {
+        classpath 'com.android.tools.build:gradle:8.2.2'
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+    }
+}
+
+allprojects {
+    repositories {
+        google()
+        mavenCentral()
+        maven { url 'https://jitpack.io' }
+    }
+}
+
+apply plugin: 'com.android.library'
+apply plugin: 'kotlin-android'
+
+android {
+    if (project.android.hasProperty("namespace")) {
+        namespace 'com.iabhishekmp.hello'
+    }
+
+    compileSdk 34
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+    kotlinOptions {
+        jvmTarget = '1.8'
+    }
+
+    sourceSets {
+        main.java.srcDirs += 'src/main/kotlin'
+        test.java.srcDirs += 'src/test/kotlin'
+    }
+
+    defaultConfig {
+        minSdkVersion 24
+    }
+
+    dependencies {
+        testImplementation 'org.jetbrains.kotlin:kotlin-test'
+        testImplementation 'org.mockito:mockito-core:5.0.0'
+
+        implementation 'com.github.rahulvis:mavenupload:v8.0'
+        implementation 'androidx.core:core-ktx:1.12.0'
+        implementation 'androidx.lifecycle:lifecycle-runtime-ktx:2.7.0'
+        implementation 'androidx.activity:activity-compose:1.8.2'
+        implementation 'androidx.compose.ui:ui'
+        implementation 'androidx.compose.ui:ui-graphics'
+        implementation 'androidx.compose.ui:ui-tooling-preview'
+        implementation 'androidx.compose.material3:material3'
+        implementation platform("androidx.compose:compose-bom:2023.08.00")
+        implementation 'androidx.appcompat:appcompat:1.6.1'
+        implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
+        implementation "androidx.appcompat:appcompat:1.6.1"
+        implementation "androidx.core:core-ktx:1.12.0"
+        implementation "com.google.android.material:material:1.11.0"
+    }
+
+    testOptions {
+        unitTests.all {
+            useJUnitPlatform()
+
+            testLogging {
+               events "passed", "skipped", "failed", "standardOut", "standardError"
+               outputs.upToDateWhen {false}
+               showStandardStreams = true
+            }
+        }
+    }
+}
